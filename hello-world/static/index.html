@@ -7,7 +7,7 @@
 <body>
 <script src="runtime/webassembly.min.js"></script>
 <script>
-webassembly.load("target/lib-opt.wasm").then(function(module) {
+webassembly.load("target/lib.wasm").then(function(module) {
     var {main} = module.exports;
     main();
 });
