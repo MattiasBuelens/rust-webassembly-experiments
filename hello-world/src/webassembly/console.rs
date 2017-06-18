@@ -1,10 +1,6 @@
-extern crate std;
-
-use std::os::raw::{c_char};
-
 extern "C" {
-    pub fn console_log(message: *const c_char) -> ();
-    pub fn console_warn(message: *const c_char) -> ();
+    pub fn console_log(message: *const u8) -> ();
+    pub fn console_warn(message: *const u8) -> ();
 }
 
 pub fn log(message: &str) -> () {
