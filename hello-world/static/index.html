@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello world!</title>
+</head>
+<body>
+<script src="runtime/webassembly.min.js"></script>
+<script>
+webassembly.load("target/lib-opt.wasm").then(function(module) {
+    var {main} = module.exports;
+    main();
+});
+</script>
+</body>
+</html>
