@@ -1,32 +1,20 @@
-extern crate iron;
-extern crate staticfile;
-extern crate mount;
-extern crate itertools;
+extern crate nickel;
 
 use std::path::Path;
-use std::net::{ToSocketAddrs};
 
-use iron::prelude::*;
-use staticfile::Static;
-use mount::Mount;
-
-use itertools::Itertools;
+use nickel::{Nickel, Router, HttpRouter, StaticFilesHandler, Mountable};
 
 const SERVER_PORT: u16 = 8080;
 
-fn wasm_project(path: &Path) -> Mount {
-    let mut mount = Mount::new();
-    mount.mount("/index.html", Static::new(path.join("static/")));
-    mount.mount("/", Static::new(path.join("target/wasm32-unknown-emscripten/debug/deps/")));
-    mount
+fn wasm_project(path: &Path) -> Router {
+    let mut router = Router::new();
+    router.get("/index.html", StaticFilesHandler::new(path.join("static/")));
+    router.get("/**", StaticFilesHandler::new(path.join("target/wasm32-unknown-emscripten/debug/deps/")));
+    router
 }
 
 fn main() {
-    let mut mount = Mount::new();
-    mount.mount("/hello-world", wasm_project(Path::new("../hello-world/")));
-
-    let address = ("localhost", SERVER_PORT);
-    println!("Server listening on {}", address.to_socket_addrs().unwrap().join(", "));
-
-    Iron::new(mount).http(address).unwrap();
+    let mut server = Nickel::new();
+    server.mount("/hello-world/", wasm_project(Path::new("../hello-world/")));
+    server.listen(("localhost", SERVER_PORT)).unwrap();
 }
