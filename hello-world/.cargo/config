@@ -1,2 +1,19 @@
 [build]
 target = "wasm32-unknown-emscripten"
+
+[target.wasm32-unknown-emscripten]
+rustflags = [
+  "-C", "panic=abort",
+  "-C", "link-arg=--js-library",
+  "-C", "link-arg=src/webassembly/runtime.js",
+  "-C", "link-arg=-s",
+  "-C", "link-arg=STRICT=1",
+  "-C", "link-arg=-s",
+  "-C", "link-arg=NO_FILESYSTEM=1",
+  "-C", "link-arg=-s",
+  "-C", "link-arg=NO_DYNAMIC_EXECUTION=1",
+  "-C", "link-arg=-s",
+  "-C", "link-arg=EXPORTED_RUNTIME_METHODS=[]",
+  "-C", "link-arg=-s",
+  "-C", "link-arg=DEFAULT_LIBRARY_FUNCS_TO_INCLUDE=[]"
+]

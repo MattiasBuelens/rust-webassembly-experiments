@@ -17,8 +17,7 @@ const SERVER_PORT: u16 = 8080;
 fn wasm_project(path: &Path) -> Mount {
     let mut mount = Mount::new();
     mount.mount("/index.html", Static::new(path.join("static/")));
-    mount.mount("/target", Static::new(path.join("target/wasm32-unknown-webassembly/debug/")));
-    mount.mount("/runtime", Static::new(path.join("node_modules/webassembly/dist/")));
+    mount.mount("/", Static::new(path.join("target/wasm32-unknown-emscripten/debug/deps/")));
     mount
 }
 
