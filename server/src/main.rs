@@ -9,7 +9,7 @@ const SERVER_PORT: u16 = 8080;
 fn wasm_project(path: &Path) -> Router {
     let mut router = Router::new();
     router.get("/index.html", StaticFilesHandler::new(path.join("static/")));
-    router.get("/**", StaticFilesHandler::new(path.join("target/wasm32-unknown-emscripten/debug/deps/")));
+    router.get("/**", StaticFilesHandler::new(path.join("target/wasm32-experimental-emscripten/debug/deps/")));
     router
 }
 
