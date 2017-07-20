@@ -10,6 +10,7 @@ extern crate alloc_system;
 
 use alloc_system::System;
 use alloc::boxed::Box;
+use alloc::arc::Arc;
 
 #[global_allocator]
 static ALLOCATOR: System = System;
@@ -31,10 +32,14 @@ pub extern fn main(_argc: i32, _argv: *const *const u8) -> i32 {
         console::warn("Alert!");
     }
 
-    let foo = Box::new("Heap!");
-    console::log(*foo);
+    log_arc_boxed_str(Arc::new(Box::new("Heaps of fun!")));
 
     0
+}
+
+pub fn log_arc_boxed_str(msg_arc : Arc<Box<&str>>) {
+    let message = Arc::try_unwrap(msg_arc).unwrap();
+    console::log(*message);
 }
 
 // These functions are used by the compiler, but not
