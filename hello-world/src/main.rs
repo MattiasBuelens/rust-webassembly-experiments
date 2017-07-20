@@ -1,7 +1,18 @@
 #![feature(lang_items, intrinsics)]
+#![feature(global_allocator, allocator_api)]
+#![feature(alloc, alloc_system)]
 #![feature(start)]
 #![no_std]
 #![no_main]
+
+extern crate alloc;
+extern crate alloc_system;
+
+use alloc_system::System;
+use alloc::boxed::Box;
+
+#[global_allocator]
+static ALLOCATOR: System = System;
 
 mod webassembly;
 
@@ -19,6 +30,9 @@ pub extern fn main(_argc: i32, _argv: *const *const u8) -> i32 {
     } else {
         console::warn("Alert!");
     }
+
+    let foo = Box::new("Heap!");
+    console::log(*foo);
 
     0
 }
