@@ -6,6 +6,7 @@ rustflags = [
   "-C", "panic=abort",
   "-C", "link-arg=--js-library",
   "-C", "link-arg=src/webassembly/runtime.js",
+  "-C", "link-arg=--profiling",
   "-C", "link-arg=-s",
   "-C", "link-arg=STRICT=1",
   "-C", "link-arg=-s",
