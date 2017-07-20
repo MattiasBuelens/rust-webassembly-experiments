@@ -1,8 +1,7 @@
-#![feature(lang_items, core_intrinsics)]
+#![feature(lang_items, intrinsics)]
 #![feature(start)]
 #![no_std]
 #![no_main]
-use core::intrinsics;
 
 mod webassembly;
 
@@ -29,19 +28,13 @@ pub extern fn main(_argc: i32, _argv: *const *const u8) -> i32 {
 // provided by libstd.
 #[lang = "eh_personality"]
 #[no_mangle]
-pub extern fn rust_eh_personality() {
-}
+pub extern fn rust_eh_personality() {}
 
 // This function may be needed based on the compilation target.
 #[lang = "eh_unwind_resume"]
 #[no_mangle]
-pub extern fn rust_eh_unwind_resume() {
-}
+pub extern fn rust_eh_unwind_resume() {}
 
 #[lang = "panic_fmt"]
 #[no_mangle]
-pub extern fn rust_begin_panic(_msg: core::fmt::Arguments,
-                               _file: &'static str,
-                               _line: u32) -> ! {
-    unsafe { intrinsics::abort() }
-}
+pub extern fn panic_fmt() -> ! { loop {} }
