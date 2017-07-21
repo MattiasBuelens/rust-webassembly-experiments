@@ -7,10 +7,12 @@
 
 extern crate alloc;
 extern crate alloc_system;
+extern crate numtoa;
 
 use alloc_system::System;
 use alloc::boxed::Box;
 use alloc::arc::Arc;
+use numtoa::NumToA;
 
 #[global_allocator]
 static ALLOCATOR: System = System;
@@ -34,12 +36,30 @@ pub extern fn main(_argc: i32, _argv: *const *const u8) -> i32 {
 
     log_arc_boxed_str(Arc::new(Box::new("Heaps of fun!")));
 
+    let mut buffer = [0u8; 10];
+    print_decimal(1234, &mut buffer);
+    print_binary(0b1010_0101, &mut buffer);
+
     0
 }
 
 pub fn log_arc_boxed_str(msg_arc : Arc<Box<&str>>) {
     let message = Arc::try_unwrap(msg_arc).unwrap();
     console::log(*message);
+}
+
+pub fn print_num(num: u32, base : u32, buffer: &mut [u8; 10]) {
+    let index = num.numtoa(base, buffer);
+    let str = core::str::from_utf8(&buffer[index..]).unwrap();
+    console::log(&str);
+}
+
+pub fn print_binary(num: u32, buffer: &mut [u8; 10]) {
+    print_num(num, 2, buffer)
+}
+
+pub fn print_decimal(num: u32, buffer: &mut [u8; 10]) {
+    print_num(num, 10, buffer)
 }
 
 // These functions are used by the compiler, but not

@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Mattias Buelens <mattias.buelens@gmail.com>"]
 
 [dependencies]
+numtoa = "0.0.7"
